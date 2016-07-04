@@ -1,19 +1,31 @@
 # Retro Snaker
 
-> 第一步：从项目获去最新代码；
+> 第一步：切换到我们的主分支：`feature/ycc-retro-snaker`分支
 
-    git pull
+    git checkout feature/ycc-retro-snaker
 
-> 第二步：安装依赖
+> 第二步：获去主分支的最新代码
 
-    npm install 
+    git pull 
 
-> 第三步：执行`webpack`打包
+> 第三步：切换到自己的分支。如：feature/ycc-caiyawen-snaker
+
+    git checkout feature/ycc-caiyawen-snaker
+
+> 第四步：将主分支合并到自己的分支
+
+    git merge feature/ycc-retro-snaker
+
+> 第五步：安装依赖
+
+    npm install
+
+> 第六步：webpack打包
 
     webpack
 
 # 组织代码说明；
-
+    
     RestroSnaker----
         |--assets               //存放所有静态原始资源
         |   |--img              //存放图片
@@ -39,6 +51,8 @@
         |--index.html
         |--package.json
         |--webpack.config.js
+        
+
 
 > 重点说明
 
