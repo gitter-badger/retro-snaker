@@ -46,19 +46,58 @@
 
 	'use strict';
 
-	__webpack_require__(1);
-	__webpack_require__(3);
+	__webpack_require__(2);
+	__webpack_require__(4);
 
 /***/ },
-/* 1 */
+/* 1 */,
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var $ = __webpack_require__(2);
+	var _view = __webpack_require__(3);
+
+	var _view2 = _interopRequireDefault(_view);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(0, _view2.default)(50, 50);
 
 /***/ },
-/* 2 */
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var $ = __webpack_require__(6);
+
+	var generateGrid = function generateGrid() {
+	    var widthNum = arguments.length <= 0 || arguments[0] === undefined ? 100 : arguments[0];
+	    var heightNum = arguments.length <= 1 || arguments[1] === undefined ? 100 : arguments[1];
+	    var SnakerLength = arguments.length <= 2 || arguments[2] === undefined ? 5 : arguments[2];
+
+	    var html = '';
+	    for (var i = 0; i < heightNum * widthNum; i++) {
+	        html += '<div class="grid"></div>';
+	    }
+	    $('#app-container').html(html);
+	};
+
+	exports.default = generateGrid;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 5 */,
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10099,12 +10138,6 @@
 	return jQuery;
 	} ) );
 
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);
