@@ -47,7 +47,7 @@
 	'use strict';
 
 	__webpack_require__(2);
-	__webpack_require__(4);
+	__webpack_require__(5);
 
 /***/ },
 /* 1 */,
@@ -60,9 +60,26 @@
 
 	var _view2 = _interopRequireDefault(_view);
 
+	var _model = __webpack_require__(7);
+
+	var _model2 = _interopRequireDefault(_model);
+
+	var _controller = __webpack_require__(8);
+
+	var _controller2 = _interopRequireDefault(_controller);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	(0, _view2.default)(50, 50);
+	var date = _model2.default.getDate();
+	(0, _controller2.default)(date);
+
+	setInterval(function () {
+
+	    _model2.default.setData(-1);
+	    var tempData = _model2.default.getDate();
+	    (0, _controller2.default)(tempData);
+	}, 1000);
 
 /***/ },
 /* 3 */
@@ -73,7 +90,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	var $ = __webpack_require__(6);
+	var $ = __webpack_require__(4);
 
 	var generateGrid = function generateGrid() {
 	    var widthNum = arguments.length <= 0 || arguments[0] === undefined ? 100 : arguments[0];
@@ -91,13 +108,6 @@
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 5 */,
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10138,6 +10148,106 @@
 	return jQuery;
 	} ) );
 
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 6 */,
+/* 7 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var Model = {
+	    headDir: 2,
+	    data: [[25, 25], [25, 24], [25, 23], [25, 22], [25, 21]],
+	    getDate: function getDate() {
+	        return this.data;
+	    },
+	    setData: function setData(dir) {
+	        if (dir === 1 && dir + this.headDir !== 0) {
+	            this.headDir = dir;
+	            this.data = forward(this.data);
+	            this.data[0][0] -= 1;
+	            return;
+	        } else if (dir === 2 && dir + this.headDir !== 0) {
+	            this.headDir = dir;
+	            this.data = forward(this.data);
+	            this.data[0][1] += 1;
+	            console.table(this.data);
+	            return;
+	        } else if (dir === -1 && dir + this.headDir !== 0) {
+	            this.headDir = dir;
+	            this.data = forward(this.data);
+	            this.data[0][0] += 1;
+	            return;
+	        } else if (dir === -2 && dir + this.headDir !== 0) {
+	            this.headDir = dir;
+	            this.data = forward(this.data);
+	            this.data[0][1] -= 1;
+	            return;
+	        } else {
+	            return;
+	        }
+	    }
+	};
+
+	function forward(arr) {
+	    var x = arr[0][0],
+	        y = arr[0][1];
+	    var temp = arr.slice(0, arr.length - 1);
+	    temp.unshift([x, y]);
+	    return temp;
+	}
+
+	module.exports = Model;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var $ = __webpack_require__(4);
+
+	function render(arr) {
+	    var $grid = $('.grid');
+	    $grid.removeClass('active');
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+
+	    try {
+	        for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	            var value = _step.value;
+
+	            var num = value[0] * 50 + value[1] + 1;
+	            $grid.eq(num).addClass('active');
+	        }
+	    } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	    } finally {
+	        try {
+	            if (!_iteratorNormalCompletion && _iterator.return) {
+	                _iterator.return();
+	            }
+	        } finally {
+	            if (_didIteratorError) {
+	                throw _iteratorError;
+	            }
+	        }
+	    }
+	}
+
+	exports.default = render;
 
 /***/ }
 /******/ ]);
