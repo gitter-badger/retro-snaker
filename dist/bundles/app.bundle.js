@@ -76,10 +76,30 @@
 
 	setInterval(function () {
 
-	    _model2.default.setData(-1);
+	    _model2.default.setData(_model2.default.headDir);
 	    var tempData = _model2.default.getDate();
 	    (0, _controller2.default)(tempData);
 	}, 1000);
+
+	document.onkeydown = function (e) {
+	    if (e.which === 37) {
+	        //向左
+	        _model2.default.setData(-2);
+	        (0, _controller2.default)(_model2.default.getDate());
+	    } else if (e.which === 38) {
+	        //向上
+	        _model2.default.setData(1);
+	        (0, _controller2.default)(_model2.default.getDate());
+	    } else if (e.which === 39) {
+	        //向右
+	        _model2.default.setData(2);
+	        (0, _controller2.default)(_model2.default.getDate());
+	    } else if (e.which === 40) {
+	        //向下
+	        _model2.default.setData(-1);
+	        (0, _controller2.default)(_model2.default.getDate());
+	    } else {}
+	};
 
 /***/ },
 /* 3 */
@@ -10160,11 +10180,12 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	var Model = {
 	    headDir: 2,
 	    data: [[25, 25], [25, 24], [25, 23], [25, 22], [25, 21]],
+	    food: [2, 10],
 	    getDate: function getDate() {
 	        return this.data;
 	    },
@@ -10173,26 +10194,29 @@
 	            this.headDir = dir;
 	            this.data = forward(this.data);
 	            this.data[0][0] -= 1;
-	            return;
 	        } else if (dir === 2 && dir + this.headDir !== 0) {
 	            this.headDir = dir;
 	            this.data = forward(this.data);
 	            this.data[0][1] += 1;
-	            console.table(this.data);
-	            return;
 	        } else if (dir === -1 && dir + this.headDir !== 0) {
 	            this.headDir = dir;
 	            this.data = forward(this.data);
 	            this.data[0][0] += 1;
-	            return;
 	        } else if (dir === -2 && dir + this.headDir !== 0) {
 	            this.headDir = dir;
 	            this.data = forward(this.data);
 	            this.data[0][1] -= 1;
-	            return;
-	        } else {
-	            return;
-	        }
+	        } else {}
+	        if (isOver(this.data)) {
+	            alert('Game over!!!!!');
+	            this.init();
+	        };
+	    },
+	    getFood: function getFood() {
+	        return this.food;
+	    },
+	    init: function init() {
+	        this.data = [[25, 25], [25, 24], [25, 23], [25, 22], [25, 21]];
 	    }
 	};
 
@@ -10202,6 +10226,23 @@
 	    var temp = arr.slice(0, arr.length - 1);
 	    temp.unshift([x, y]);
 	    return temp;
+	}
+
+	function isOver(data) {
+	    var head = data[0];
+	    var xFail = head[0] < 0 || head[0] >= 50,
+	        yFail = head[1] < -1 || head[1] >= 49,
+	        crashed;
+	    for (var i = 1; i < data.length; i++) {
+	        if (head[0] === data[i][0]) {
+	            if (head[1] === data[i][1]) {
+	                crashed = true;
+	                break;
+	            }
+	        }
+	    }
+	    var result = xFail || yFail || crashed;
+	    return result;
 	}
 
 	module.exports = Model;
@@ -10215,7 +10256,15 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _model = __webpack_require__(7);
+
+	var _model2 = _interopRequireDefault(_model);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var $ = __webpack_require__(4);
+
 
 	function render(arr) {
 	    var $grid = $('.grid');
@@ -10245,6 +10294,9 @@
 	            }
 	        }
 	    }
+
+	    var food = _model2.default.getFood();
+	    $grid.eq(food[0] * 50 + food[1] + 1).addClass('active');
 	}
 
 	exports.default = render;

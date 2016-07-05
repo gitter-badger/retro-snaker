@@ -6,12 +6,12 @@
   border: 1px solid #DDD;
   width: 500px;
   margin: 30px auto;
+  overflow: hidden;
 }
 .app-container .grid {
   display: inline-block;
   width: 10px;
   height: 10px;
-  background: red;
   float: left;
 }
 .app-container .active {
