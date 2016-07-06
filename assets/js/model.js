@@ -7,27 +7,56 @@ var Model={
         [25,22],
         [25,21]
     ],
-    food:[2,10],
+    food:[25,27],
     getDate:function(){
         return this.data;
     },
     setData:function(dir){
+        var currrentHead=[this.data[0][0],this.data[0][1]];
         if ( dir === 1 && dir+this.headDir !==0) {
             this.headDir = dir;
+            currrentHead[0]-=1;
+            if(currrentHead[0] === this.food[0] && currrentHead[1]===this.food[1]){
+                console.log('吃到了');
+                this.data.unshift(currrentHead);
+                this.setFood();
+                return;
+            };
             this.data=forward(this.data);
-            this.data[0][0] -= 1;
+            this.data[0]=currrentHead;
         } else if ( dir === 2 && dir+this.headDir !==0) {
             this.headDir = dir;
+            currrentHead[1]+=1;
+            if(currrentHead[0] === this.food[0] && currrentHead[1]===this.food[1]){
+                console.log('吃到了');
+                this.data.unshift(currrentHead);
+                this.setFood();
+                return;
+            };
             this.data=forward(this.data);
-            this.data[0][1] += 1;
+            this.data[0]=currrentHead;
         } else if ( dir === -1 && dir+this.headDir !==0) {
             this.headDir = dir;
+            currrentHead[0]+=1;
+            if(currrentHead[0] === this.food[0] && currrentHead[1]===this.food[1]){
+                console.log('吃到了');
+                this.data.unshift(currrentHead);
+                this.setFood();
+                return;
+            };
             this.data=forward(this.data);
-            this.data[0][0] += 1;
+            this.data[0]=currrentHead;
         } else if ( dir === -2 && dir+this.headDir !==0) {
             this.headDir = dir;
+            currrentHead[1]-=1;
+            if(currrentHead[0] === this.food[0] && currrentHead[1]===this.food[1]){
+                console.log('吃到了');
+                this.data.unshift(currrentHead);
+                this.setFood();
+                return;
+            };
             this.data=forward(this.data);
-            this.data[0][1] -= 1;
+            this.data[0]=currrentHead;
         } else {}
         if(isOver(this.data)){
             alert('Game over!!!!!');
@@ -45,6 +74,15 @@ var Model={
             [25,22],
             [25,21]
         ];
+    },
+    isEat:function(){
+        if(this.data[0][0]==this.food[0] && this.data[0][1]== this.food[1]){
+            return true;
+        }
+        return false;
+    },
+    setFood:function(){
+        this.food = randomFood();
     }
 }
 
@@ -70,7 +108,13 @@ function isOver(data){
     }
     var result = xFail || yFail || crashed;
     return result;
-
 }
+
+function randomFood(){
+    let x = Math.floor(Math.random()*50);
+    let y = Math.floor(Math.random()*50);
+    return [x,y];
+}
+
 
 module.exports=Model;

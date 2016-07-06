@@ -47,7 +47,7 @@
 	'use strict';
 
 	__webpack_require__(2);
-	__webpack_require__(5);
+	__webpack_require__(7);
 
 /***/ },
 /* 1 */,
@@ -60,11 +60,11 @@
 
 	var _view2 = _interopRequireDefault(_view);
 
-	var _model = __webpack_require__(7);
+	var _model = __webpack_require__(5);
 
 	var _model2 = _interopRequireDefault(_model);
 
-	var _controller = __webpack_require__(8);
+	var _controller = __webpack_require__(6);
 
 	var _controller2 = _interopRequireDefault(_controller);
 
@@ -75,11 +75,10 @@
 	(0, _controller2.default)(date);
 
 	setInterval(function () {
-
 	    _model2.default.setData(_model2.default.headDir);
 	    var tempData = _model2.default.getDate();
 	    (0, _controller2.default)(tempData);
-	}, 1000);
+	}, 500);
 
 	document.onkeydown = function (e) {
 	    if (e.which === 37) {
@@ -10173,39 +10172,61 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 6 */,
-/* 7 */
-/***/ function(module, exports) {
-
 	'use strict';
 
 	var Model = {
 	    headDir: 2,
 	    data: [[25, 25], [25, 24], [25, 23], [25, 22], [25, 21]],
-	    food: [2, 10],
+	    food: [25, 27],
 	    getDate: function getDate() {
 	        return this.data;
 	    },
 	    setData: function setData(dir) {
+	        var currrentHead = [this.data[0][0], this.data[0][1]];
 	        if (dir === 1 && dir + this.headDir !== 0) {
 	            this.headDir = dir;
+	            currrentHead[0] -= 1;
+	            if (currrentHead[0] === this.food[0] && currrentHead[1] === this.food[1]) {
+	                console.log('吃到了');
+	                this.data.unshift(currrentHead);
+	                this.setFood();
+	                return;
+	            };
 	            this.data = forward(this.data);
-	            this.data[0][0] -= 1;
+	            this.data[0] = currrentHead;
 	        } else if (dir === 2 && dir + this.headDir !== 0) {
 	            this.headDir = dir;
+	            currrentHead[1] += 1;
+	            if (currrentHead[0] === this.food[0] && currrentHead[1] === this.food[1]) {
+	                console.log('吃到了');
+	                this.data.unshift(currrentHead);
+	                this.setFood();
+	                return;
+	            };
 	            this.data = forward(this.data);
-	            this.data[0][1] += 1;
+	            this.data[0] = currrentHead;
 	        } else if (dir === -1 && dir + this.headDir !== 0) {
 	            this.headDir = dir;
+	            currrentHead[0] += 1;
+	            if (currrentHead[0] === this.food[0] && currrentHead[1] === this.food[1]) {
+	                console.log('吃到了');
+	                this.data.unshift(currrentHead);
+	                this.setFood();
+	                return;
+	            };
 	            this.data = forward(this.data);
-	            this.data[0][0] += 1;
+	            this.data[0] = currrentHead;
 	        } else if (dir === -2 && dir + this.headDir !== 0) {
 	            this.headDir = dir;
+	            currrentHead[1] -= 1;
+	            if (currrentHead[0] === this.food[0] && currrentHead[1] === this.food[1]) {
+	                console.log('吃到了');
+	                this.data.unshift(currrentHead);
+	                this.setFood();
+	                return;
+	            };
 	            this.data = forward(this.data);
-	            this.data[0][1] -= 1;
+	            this.data[0] = currrentHead;
 	        } else {}
 	        if (isOver(this.data)) {
 	            alert('Game over!!!!!');
@@ -10217,6 +10238,15 @@
 	    },
 	    init: function init() {
 	        this.data = [[25, 25], [25, 24], [25, 23], [25, 22], [25, 21]];
+	    },
+	    isEat: function isEat() {
+	        if (this.data[0][0] == this.food[0] && this.data[0][1] == this.food[1]) {
+	            return true;
+	        }
+	        return false;
+	    },
+	    setFood: function setFood() {
+	        this.food = randomFood();
 	    }
 	};
 
@@ -10245,10 +10275,16 @@
 	    return result;
 	}
 
+	function randomFood() {
+	    var x = Math.floor(Math.random() * 50);
+	    var y = Math.floor(Math.random() * 50);
+	    return [x, y];
+	}
+
 	module.exports = Model;
 
 /***/ },
-/* 8 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10257,7 +10293,7 @@
 	    value: true
 	});
 
-	var _model = __webpack_require__(7);
+	var _model = __webpack_require__(5);
 
 	var _model2 = _interopRequireDefault(_model);
 
@@ -10300,6 +10336,12 @@
 	}
 
 	exports.default = render;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);
