@@ -70,17 +70,36 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var $ = __webpack_require__(4);
+
+
 	(0, _view2.default)(50, 50);
 	var date = _model2.default.getDate();
 	(0, _controller2.default)(date);
 
-	setInterval(function () {
+	var timer = null;
+
+	var run = function run() {
 	    _model2.default.setData(_model2.default.headDir);
 	    var tempData = _model2.default.getDate();
 	    (0, _controller2.default)(tempData);
-	}, 1000);
+	};
+
+	function pause() {
+	    clearInterval(timer);
+	}
+
+	function begin() {
+	    timer = setInterval(run, 1000);
+	}
+
+	$('#begin').click(begin);
+	$('#pause').click(pause);
 
 	document.onkeydown = function (e) {
+	    if (!timer) {
+	        begin();
+	    }
 	    if (e.which === 37) {
 	        //向左
 	        _model2.default.setData(-2);
@@ -10178,11 +10197,11 @@
 	    headDir: 2,
 	    data: [[25, 25], [25, 24], [25, 23], [25, 22], [25, 21]],
 	    food: [25, 27],
+	    score: 0,
 	    getDate: function getDate() {
 	        return this.data;
 	    },
 	    setData: function setData(dir) {
-	        this.headDir = dir;
 	        var currrentHead = [this.data[0][0], this.data[0][1]];
 	        if (dir === 1 && dir + this.headDir !== 0) {
 	            currrentHead[0] -= 1;
@@ -10196,11 +10215,18 @@
 	            return;
 	        }
 	        if (currrentHead[0] === this.food[0] && currrentHead[1] === this.food[1]) {
-	            console.log('吃到了');
+	            this.score += 10;
+	            if (this.afterEat.length > 0) {
+	                var that = this;
+	                this.afterEat.map(function (value) {
+	                    value(that.score);
+	                });
+	            }
 	            this.data.unshift(currrentHead);
 	            this.setFood();
 	            return;
 	        };
+	        this.headDir = dir;
 	        this.data = forward(this.data);
 	        this.data[0] = currrentHead;
 	        if (isOver(this.data)) {
@@ -10213,6 +10239,7 @@
 	    },
 	    init: function init() {
 	        this.data = [[25, 25], [25, 24], [25, 23], [25, 22], [25, 21]];
+	        this.headDir = 2;
 	    },
 	    isEat: function isEat() {
 	        if (this.data[0][0] == this.food[0] && this.data[0][1] == this.food[1]) {
@@ -10222,6 +10249,10 @@
 	    },
 	    setFood: function setFood() {
 	        this.food = randomFood();
+	    },
+	    afterEat: [],
+	    setAfterScore: function setAfterScore(fun) {
+	        this.afterEat.push(fun);
 	    }
 	};
 
@@ -10236,7 +10267,7 @@
 	function isOver(data) {
 	    var head = data[0];
 	    var xFail = head[0] < 0 || head[0] >= 50,
-	        yFail = head[1] < -1 || head[1] >= 49,
+	        yFail = head[1] < 0 || head[1] >= 50,
 	        crashed;
 	    for (var i = 1; i < data.length; i++) {
 	        if (head[0] === data[i][0]) {
@@ -10253,6 +10284,7 @@
 	function randomFood() {
 	    var x = Math.floor(Math.random() * 50);
 	    var y = Math.floor(Math.random() * 50);
+	    console.log(x, y);
 	    return [x, y];
 	}
 
@@ -10277,7 +10309,12 @@
 	var $ = __webpack_require__(4);
 
 
+	_model2.default.setAfterScore(function (score) {
+	    $('#score').html(score);
+	});
+
 	function render(arr) {
+	    console.log(arr[0][0], arr[0][1]);
 	    var $grid = $('.grid');
 	    $grid.removeClass('active');
 	    var _iteratorNormalCompletion = true;
@@ -10288,7 +10325,7 @@
 	        for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	            var value = _step.value;
 
-	            var num = value[0] * 50 + value[1] + 1;
+	            var num = value[0] * 50 + value[1];
 	            $grid.eq(num).addClass('active');
 	        }
 	    } catch (err) {
@@ -10307,7 +10344,7 @@
 	    }
 
 	    var food = _model2.default.getFood();
-	    $grid.eq(food[0] * 50 + food[1] + 1).addClass('active');
+	    $grid.eq(food[0] * 50 + food[1]).addClass('active');
 	}
 
 	exports.default = render;
