@@ -10,7 +10,7 @@ setInterval(function(){
     Model.setData(Model.headDir);
     let tempData=Model.getDate();
     render(tempData);
-},500);
+},1000);
 
 document.onkeydown=function(e){
     if(e.which===37){                   //向左

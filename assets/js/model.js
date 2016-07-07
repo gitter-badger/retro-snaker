@@ -12,52 +12,27 @@ var Model={
         return this.data;
     },
     setData:function(dir){
+        this.headDir = dir;
         var currrentHead=[this.data[0][0],this.data[0][1]];
         if ( dir === 1 && dir+this.headDir !==0) {
-            this.headDir = dir;
             currrentHead[0]-=1;
-            if(currrentHead[0] === this.food[0] && currrentHead[1]===this.food[1]){
-                console.log('吃到了');
-                this.data.unshift(currrentHead);
-                this.setFood();
-                return;
-            };
-            this.data=forward(this.data);
-            this.data[0]=currrentHead;
         } else if ( dir === 2 && dir+this.headDir !==0) {
-            this.headDir = dir;
             currrentHead[1]+=1;
-            if(currrentHead[0] === this.food[0] && currrentHead[1]===this.food[1]){
-                console.log('吃到了');
-                this.data.unshift(currrentHead);
-                this.setFood();
-                return;
-            };
-            this.data=forward(this.data);
-            this.data[0]=currrentHead;
         } else if ( dir === -1 && dir+this.headDir !==0) {
-            this.headDir = dir;
             currrentHead[0]+=1;
-            if(currrentHead[0] === this.food[0] && currrentHead[1]===this.food[1]){
-                console.log('吃到了');
-                this.data.unshift(currrentHead);
-                this.setFood();
-                return;
-            };
-            this.data=forward(this.data);
-            this.data[0]=currrentHead;
         } else if ( dir === -2 && dir+this.headDir !==0) {
-            this.headDir = dir;
             currrentHead[1]-=1;
-            if(currrentHead[0] === this.food[0] && currrentHead[1]===this.food[1]){
-                console.log('吃到了');
-                this.data.unshift(currrentHead);
-                this.setFood();
-                return;
-            };
-            this.data=forward(this.data);
-            this.data[0]=currrentHead;
-        } else {}
+        } else {
+            return ;
+        }
+        if(currrentHead[0] === this.food[0] && currrentHead[1]===this.food[1]){
+            console.log('吃到了');
+            this.data.unshift(currrentHead);
+            this.setFood();
+            return;
+        };
+        this.data=forward(this.data);
+        this.data[0]=currrentHead;
         if(isOver(this.data)){
             alert('Game over!!!!!');
             this.init();
