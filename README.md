@@ -1,5 +1,7 @@
 # Retro Snaker
 
+[![Join the chat at https://gitter.im/retro-snaker/Lobby](https://badges.gitter.im/retro-snaker/Lobby.svg)](https://gitter.im/retro-snaker/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 > 第一步：切换到我们的主分支：`feature/ycc-retro-snaker`分支
 
     git checkout feature/ycc-retro-snaker
